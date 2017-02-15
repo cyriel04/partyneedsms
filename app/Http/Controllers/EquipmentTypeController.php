@@ -17,15 +17,15 @@ class EquipmentTypeController extends Controller
     public function index()
     {
         //
-        $ids = \DB::table('tblEquipmentType')
-            ->select('strEquiTypeCode')
-            ->orderBy('strEquiTypeCode', 'desc')
+        $ids = \DB::table('tblequipmenttype')
+            ->select('equipmentTypeCode')
+            ->orderBy('equipmentTypeCode', 'desc')
             ->first();
 
         if ($ids == null) {
-          $newID = $this->smartCounter("EQUITYPE0000");
+          $newID = $this->smartCounter("1");
         }else{
-          $newID = $this->smartCounter($ids->strEquiTypeCode);
+          $newID = $this->smartCounter($ids->equipmentTypeCode);
         }
 
         $equipmentTypes = EquipmentType::all();
@@ -58,9 +58,9 @@ class EquipmentTypeController extends Controller
 
       $this->validate($request, $rules);
       $equipmentType = new EquipmentType;
-      $equipmentType->strEquiTypeCode = $request->equipment_type_code;
-      $equipmentType->strEquiTypeName = $request->equipment_type_name;
-      $equipmentType->txtEquiTypeDesc = $request->equipment_type_description;
+      $equipmentType->equipmentTypeCode = $request->equipment_type_code;
+      $equipmentType->equipmentTypeName = $request->equipment_type_name;
+      $equipmentType->equipmentTypeDesc = $request->equipment_type_description;
       $equipmentType->save();
 
       return redirect('equipmentType')->with('alert-success', 'Equipment Type was successfully saved.');
@@ -112,7 +112,7 @@ class EquipmentTypeController extends Controller
     {
         //
         $equipmentType = EquipmentType::find($id);
-        $name = $equipmentType->strEquiTypeName;
+        $name = $equipmentType->equipmentTypeName;
         $equipmentType->delete();
 
         return redirect('equipmentType')->with('alert-success', 'Equipment Type '. $name .' was successfully deleted.');
@@ -125,8 +125,8 @@ class EquipmentTypeController extends Controller
 
       $this->validate($request, $rules);
       $equipmentType = EquipmentType::find($id);
-      $equipmentType->strEquiTypeName = $request->equipment_type_name;
-      $equipmentType->txtEquiTypeDesc = $request->equipment_type_description;
+      $equipmentType->equipmentTypeName = $request->equipment_type_name;
+      $equipmentType->equipmentTypeDesc = $request->equipment_type_description;
       $equipmentType->save();
 
       return redirect('equipmentType')->with('alert-success', 'Equipment Type ' . $id . ' was successfully updated.');
@@ -135,7 +135,7 @@ class EquipmentTypeController extends Controller
     public function equipmentType_restore(Request $request)
     {
       $id = $request->equipment_type_id;
-      $equipmentType = EquipmentType::onlyTrashed()->where('strEquiTypeCode', '=', $id)->firstOrFail();
+      $equipmentType = EquipmentType::onlyTrashed()->where('equipmentTypeCode', '=', $id)->firstOrFail();
       $equipmentType->restore();
 
       return redirect('equipmentType')->with('alert-success', 'Equipment Type ' . $id . ' was successfully restored.');

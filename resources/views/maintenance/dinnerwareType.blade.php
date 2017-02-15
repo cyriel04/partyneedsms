@@ -54,12 +54,12 @@
 		</table>
 	</div>
 
-@if(count($equipmentTypes) > 0)
-@foreach($equipmentTypes as $equipmentType)
-	<div class="ui modal" id="update{{$equipmentType->equipmentTypeCode}}">
-	  <div class="header">Update Equipment Type</div>
+@if(count($dinnerwareTypes) > 0)
+@foreach($dinnerwareTypes as $dinnerwareType)
+	<div class="ui modal" id="update{{$dinnerwareType->dinnerwareTypeCode}}">
+	  <div class="header">Update Dinnerware Type</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/equipmentType/equipmentType_update']) !!}
+	    {!! Form::open(['url' => '/dinnerwareType/dinnerwareType_update']) !!}
 	    	<div class="ui form">
 	    		@if (count($errors) > 0)
 	    		<div class="ui message">
@@ -71,14 +71,14 @@
 				    </ul>
 				</div>
 				@endif
-	    		{{ Form::hidden('equipment_type_code', $equipmentType->equipmentTypeCode) }}
+	    		{{ Form::hidden('dinnerware_type_code', $dinnerwareType->dinnerwareTypeCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('equipment_type_name', 'Equipment Type Name') }}
-         			{{ Form::text('equipment_type_name', $equipmentType->equipmentTypeName, ['placeholder' => 'Type Equipment Type Name']) }}
+	    			{{ Form::label('dinnerware_type_name', 'Dinnerware Type Name') }}
+         			{{ Form::text('dinnerware_type_name', $dinnerwareType->dinnerwareTypeName, ['placeholder' => 'Type Dinnerware Type Name']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('equipment_type_description', 'Equipment Type Description') }}
-          			{{ Form::textarea('equipment_type_description', $equipmentType->equipmentTypeDesc, ['placeholder' => 'Type Equipment Type Description', 'rows' => '2']) }}
+	    			{{ Form::label('dinnerware_type_description', 'Dinnerware Type Description') }}
+          			{{ Form::textarea('dinnerware_type_description', $dinnerwareType->dinnewareTypeDesc, ['placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
         </div>
@@ -90,26 +90,26 @@
 	</div>
 
 	<div class="ui modal" id="delete{{$equipmentType->equipmentTypeCode}}">
-	  <div class="header">Deactivate Equipment Type</div>
+	  <div class="header">Deactivate Dinnerware Type</div>
 	  <div class="content">
-	    <p>Do you want to delete this Equipment type?</p>
+	    <p>Do you want to delete this Dinnerware type?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/equipmentType/' . $equipmentType->equipmentTypeCode, 'method' => 'delete']) !!}
+	  	{!! Form::open(['url' => '/dinnerwareType/' . $dinnerwareType->dinnerwareTypeCode, 'method' => 'delete']) !!}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
 	</div>
 
-	<div class="ui modal" id="restore{{$equipmentType->equipmentTypeCode}}">
-	  <div class="header">Restore Equipment Type</div>
+	<div class="ui modal" id="restore{{$dinnerwareType->dinnerwareTypeCode}}">
+	  <div class="header">Restore Dinnerware Type</div>
 	  <div class="content">
-	    <p>Do you want to Restore this Equipment type?</p>
+	    <p>Do you want to Restore this Dinnerware type?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/equipmentType/equipementType_restore']) !!}
-	  		{{ Form::hidden('equipment_type_code', $equipmentType->equipmentTypeCode) }}
+	  	{!! Form::open(['url' => '/dinnerwareType/dinnerwareType_restore']) !!}
+	  		{{ Form::hidden('dinnerware_type_code', $dinnerwareType->dinnerwareTypeCode) }}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
@@ -119,9 +119,9 @@
 @endif
 
 	<div class="ui modal" id="create">
-	  <div class="header">New Equipment Type</div>
+	  <div class="header">New Dinnerware Type</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/equipmentType']) !!}
+	    {!! Form::open(['url' => '/dinnerwareType']) !!}
 	    	<div class="ui form">
 	    		@if (count($errors) > 0)
 	    		<div class="ui message">
@@ -135,16 +135,16 @@
 				@endif
 
 	    		<div class="disabled field">
-	    			{{ Form::label('equipment_type_code', 'Equipment Type Code') }}
-         			{{ Form::text('equipment_type_code', $newID, ['placeholder' => 'Type Equipment Type Code']) }}
+	    			{{ Form::label('dinnerware_type_code', 'Dinnerware Type Code') }}
+         			{{ Form::text('dinnerware_type_code', $newID, ['placeholder' => 'Type Dinnerware Type Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('equipment_type_name', 'Equipment Type Name') }}
-         			{{ Form::text('equipment_type_name', '', ['placeholder' => 'Type Equipment Type Name']) }}
+	    			{{ Form::label('dinnerware_type_name', 'Dinnerware Type Name') }}
+         			{{ Form::text('dinnerware_type_name', '', ['placeholder' => 'Type Dinnerware Type Name']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('equipment_type_description', 'Equipment Type Description') }}
-          			{{ Form::textarea('equipment_type_description', '', ['placeholder' => 'Type Equipment Type Description', 'rows' => '2']) }}
+	    			{{ Form::label('dinnerware_type_description', 'Dinnerware Type Description') }}
+          			{{ Form::textarea('dinnerware_type_description', '', ['placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
         </div>
@@ -163,7 +163,7 @@
     $('#inventory_content').addClass("active");
     $('#inventory').addClass("active");
 
-    var table = $('#tblequipmenttype').DataTable();
+    var table = $('#tbldinnerwaretype').DataTable();
   });
 </script>
 @endsection

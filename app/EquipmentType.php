@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EquipmentType extends Model
 {
   use SoftDeletes;
-  protected $table = 'tblEquipmentType';
+  protected $table = 'tblequipmenttype';
   protected $primaryKey = 'equipmentTypeCode';
   protected $fillable = ['equipmentTypeName', 'equipmentTypeDesc'];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
