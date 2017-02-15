@@ -24,7 +24,7 @@
 		<table class="ui table" id="tblequipmenttype">
 		  <thead>
 		    <tr>
-			    <th>Equipment Type</th>
+			    <th>Type</th>
 			    <th>Description</th>
 			    <th class="center aligned">Action</th>
 		  	</tr>
@@ -90,7 +90,7 @@
 	</div>
 
 	<div class="ui modal" id="delete{{$equipmentType->equipmentTypeCode}}">
-	  <div class="header">Deactivate Equipment Type</div>
+	  <div class="header">Deactivate</div>
 	  <div class="content">
 	    <p>Do you want to delete this Equipment type?</p>
 	  </div>
@@ -103,7 +103,7 @@
 	</div>
 
 	<div class="ui modal" id="restore{{$equipmentType->equipmentTypeCode}}">
-	  <div class="header">Restore Equipment Type</div>
+	  <div class="header">Restore</div>
 	  <div class="content">
 	    <p>Do you want to Restore this Equipment type?</p>
 	  </div>
@@ -160,8 +160,8 @@
 <script>
   $(document).ready( function(){
     $('#equipmentType').addClass("active grey");
-    $('#inventory_content').addClass("active");
-    $('#inventory').addClass("active");
+    $('#item_content').addClass("active");
+    $('#item').addClass("active");
 
     var table = $('#tblequipmenttype').DataTable();
   });

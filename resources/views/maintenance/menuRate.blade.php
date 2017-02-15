@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
-@section('title')
-	Unit of Measurement
+Menu Rate
 @endsection
 
 @section('content')
@@ -13,7 +12,7 @@
   	@endif
 
 	<div class="row">
-		<h1>Unit of Measurement</h1>
+		<h1>Menu Rate</h1>
 		<hr>
 	</div>
 
@@ -21,30 +20,30 @@
 		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Unit of Measurement</button>
 	</div>
 	<div class="row">
-		<table class="ui table" id="tbluom">
+		<table class="ui table" id="tblmenuset">
 		  <thead>
 		    <tr>
-			    <th>Name</th>
-			    <th>Description</th>
+			    <th>Price</th>
+
 			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
 		  <tbody>
-		  	@if(count($uoms) < 0)
+		  	@if(count($menuSets) < 0)
 		  	<tr>
 		  		<td colspan="3"><strong>Nothing to show.</strong></td>
 		  	</tr>
 		  	@else
-		  		@foreach($uoms as $uom)
+		  		@foreach($menuSets as $menuSet)
 			  	<tr>
-			      <td>{{$uom->uomName}}</td>
-			      <td>{{$uom->uomDesc}}</td>
+			      <td>{{$menuSet->price}}</td>
+
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$uom->uomCode}}').modal('show');"><i class="edit icon"></i> Update</button>
-					@if($uom->deleted_at == null)
-			      	<button class="ui red button" onclick="$('#delete{{$uom->uomCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
+					<button class="ui blue button" onclick="$('#update{{$menuSet->menuCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+					@if($menuSet->deleted_at == null)
+			      	<button class="ui red button" onclick="$('#delete{{$menuSet->menuCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui orange button" onclick="$('#restore{{$uom->uomCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$menuSet->menuCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
@@ -55,11 +54,11 @@
 	</div>
 
 @if(count($uoms) > 0)
-@foreach($uoms as $uom)
-	<div class="ui modal" id="update{{$unit->uomCode}}">
-	  <div class="header">Update Unit of Measurement</div>
+@foreach($menuSets as $menuSet)
+	<div class="ui modal" id="update{{$menuSet->menuCode}}">
+	  <div class="header">Update</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/uom/uom_update']) !!}
+	    {!! Form::open(['url' => '/menuSet/menuSet_update']) !!}
 	    	<div class="ui form">
 	    		@if (count($errors) > 0)
 	    		<div class="ui message">
@@ -71,14 +70,9 @@
 				    </ul>
 				</div>
 				@endif
-	    		{{ Form::hidden('uom_code', $unit->uomCode) }}
+	    		{{ Form::hidden('menu_code', $menuSet->menuCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('uom_name', 'Name') }}
-         			{{ Form::text('uom_name', $unit->uomName, ['placeholder' => 'Type Unit of Measurement Name']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('uom_description', 'Description') }}
-          			{{ Form::textarea('uom_description', $unit->uomDesc, ['placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
+	    			{{ Form::label('menu_price', 'price') }}
 	    		</div>
 	    	</div>
         </div>
@@ -89,27 +83,27 @@
 	  </div>
 	</div>
 
-	<div class="ui modal" id="delete{{$uom->uomCode}}">
+	<div class="ui modal" id="delete{{$menuSet->menuCode}}">
 	  <div class="header">Deactivate</div>
 	  <div class="content">
-	    <p>Do you want to delete this Unit of Measurement?</p>
+	    <p>Do you want to delete this Menu Rate?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/uom/' . $uom->uomCode, 'method' => 'delete']) !!}
+	  	{!! Form::open(['url' => '/menuSet/' . $menuSet->menuCode, 'method' => 'delete']) !!}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
 	</div>
 
-	<div class="ui modal" id="restore{{$uom->uomCode}}">
+	<div class="ui modal" id="restore{{$menuSet->menuCode}}">
 	  <div class="header">Restore</div>
 	  <div class="content">
-	    <p>Do you want to Restore this Unit of Measurement?</p>
+	    <p>Do you want to Restore this Item Rate?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/uom/uom_restore']) !!}
-	  		{{ Form::hidden('uom_code', $uom->uomCode) }}
+	  	{!! Form::open(['url' => '/menuSet/menuSet_restore']) !!}
+	  		{{ Form::hidden('menu_code', $menuSet->menuCode) }}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
@@ -119,9 +113,9 @@
 @endif
 
 	<div class="ui modal" id="create">
-	  <div class="header">New Unit of Measurement</div>
+	  <div class="header">New</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/uom']) !!}
+	    {!! Form::open(['url' => '/menuSet']) !!}
 	    	<div class="ui form">
 	    		@if (count($errors) > 0)
 	    		<div class="ui message">
@@ -135,16 +129,12 @@
 				@endif
 
 	    		<div class="disabled field">
-	    			{{ Form::label('uom_code', 'Code') }}
-         			{{ Form::text('uom_code', $newID, ['placeholder' => 'Type Unit of Measurement Code']) }}
+	    			{{ Form::label('menu_code', 'Code') }}
+         			{{ Form::text('menu_code', $newID, ['placeholder' => 'Type Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('uom_name', 'Name') }}
-         			{{ Form::text('uom_name', '', ['placeholder' => 'Type Unit of Measurement Name']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('uom_description', 'Description') }}
-          			{{ Form::textarea('uom_description', '', ['placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
+	    			{{ Form::label('price', 'price') }}
+         			{{ Form::text('price', '', ['placeholder' => 'Type price']) }}
 	    		</div>
 	    	</div>
         </div>
@@ -159,11 +149,11 @@
 @section('js')
 <script>
   $(document).ready( function(){
-    $('#$uom').addClass("active grey");
+    $('#$menuSet').addClass("active grey");
     $('#content').addClass("active");
     $('#title').addClass("active");
 
-    var table = $('#tbluom').DataTable();
+    var table = $('#tblmenuSet').DataTable();
   });
 </script>
 @endsection

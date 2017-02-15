@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-	Unit
+	Item Rate
 @endsection
 
 @section('content')
@@ -13,53 +13,53 @@
   	@endif
 
 	<div class="row">
-		<h1>Unit</h1>
+		<h1>Item Rate</h1>
 		<hr>
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Unit</button>
+		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Unit of Measurement</button>
 	</div>
 	<div class="row">
-		<table class="ui table" id="tblUnit">
+		<table class="ui table" id="tblitemrate">
 		  <thead>
 		    <tr>
-			    <th>Unit</th>
-			    <th>Description</th>
+			    <th>Amount</th>
+
 			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
 		  <tbody>
-		  	@if(count($units) < 0)
+		  	@if(count($itemRates) < 0)
 		  	<tr>
 		  		<td colspan="3"><strong>Nothing to show.</strong></td>
 		  	</tr>
 		  	@else
-		  		@foreach($units as $unit)
+		  		@foreach($itemRates as $itemRate)
 			  	<tr>
-			      <td>{{$unit->strUnitName}}</td>
-			      <td>{{$unit->txtUnitDesc}}</td>
+			      <td>{{$itemRate->amount}}</td>
+
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$unit->strUnitCode}}').modal('show');"><i class="edit icon"></i> Update</button>
-					@if($unit->deleted_at == null)
-			      	<button class="ui red button" onclick="$('#delete{{$unit->strUnitCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
+					<button class="ui blue button" onclick="$('#update{{$itemRate->itemRateCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+					@if($uom->deleted_at == null)
+			      	<button class="ui red button" onclick="$('#delete{{$itemRate->itemRateCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui orange button" onclick="$('#restore{{$unit->strUnitCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$itemRate->itemRateCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
 		    	@endforeach
-		    @endif	
+		    @endif
 		  </tbody>
 		</table>
 	</div>
 
-@if(count($units) > 0)
-@foreach($units as $unit)
-	<div class="ui modal" id="update{{$unit->strUnitCode}}">
-	  <div class="header">Update Unit</div>
+@if(count($uoms) > 0)
+@foreach($uoms as $uom)
+	<div class="ui modal" id="update{{$itemRate->itemRateCode}}">
+	  <div class="header">Update</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/unit/unit_update']) !!}
+	    {!! Form::open(['url' => '/itemRate/itemRate_update']) !!}
 	    	<div class="ui form">
 	    		@if (count($errors) > 0)
 	    		<div class="ui message">
@@ -71,14 +71,9 @@
 				    </ul>
 				</div>
 				@endif
-	    		{{ Form::hidden('unit_code', $unit->strUnitCode) }}
+	    		{{ Form::hidden('item_rate_code', $itemRate->itemRateCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('unit_name', 'Unit Name') }}
-         			{{ Form::text('unit_name', $unit->strUnitName, ['placeholder' => 'Type Unit Name']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('unit_description', 'Unit Description') }}
-          			{{ Form::textarea('unit_description', $unit->txtUnitDesc, ['placeholder' => 'Type Unit Description', 'rows' => '2']) }}
+	    			{{ Form::label('item_rate_amount', 'Amount') }}
 	    		</div>
 	    	</div>
         </div>
@@ -89,27 +84,27 @@
 	  </div>
 	</div>
 
-	<div class="ui modal" id="delete{{$unit->strUnitCode}}">
-	  <div class="header">Deactivate Unit</div>
+	<div class="ui modal" id="delete{{$itemRate->itemRateCode}}">
+	  <div class="header">Deactivate</div>
 	  <div class="content">
-	    <p>Do you want to delete this food type?</p>
+	    <p>Do you want to delete this Item Rate?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/unit/' . $unit->strUnitCode, 'method' => 'delete']) !!}
+	  	{!! Form::open(['url' => '/itemRate/' . $itemRate->itemRateCode, 'method' => 'delete']) !!}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
 	</div>
 
-	<div class="ui modal" id="restore{{$unit->strUnitCode}}">
-	  <div class="header">Restore Unit</div>
+	<div class="ui modal" id="restore{{$itemRate->itemRateCode}}">
+	  <div class="header">Restore</div>
 	  <div class="content">
-	    <p>Do you want to Restore this food type?</p>
+	    <p>Do you want to Restore this Item Rate?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/unit/unit_restore']) !!}
-	  		{{ Form::hidden('unit_code', $unit->strUnitCode) }}
+	  	{!! Form::open(['url' => '/itemRate/itemRate_restore']) !!}
+	  		{{ Form::hidden('item_rate_code', $itemRate->itemRateCode) }}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
@@ -119,9 +114,9 @@
 @endif
 
 	<div class="ui modal" id="create">
-	  <div class="header">New Unit</div>
+	  <div class="header">New</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/unit']) !!}
+	    {!! Form::open(['url' => '/itemRate']) !!}
 	    	<div class="ui form">
 	    		@if (count($errors) > 0)
 	    		<div class="ui message">
@@ -135,16 +130,12 @@
 				@endif
 
 	    		<div class="disabled field">
-	    			{{ Form::label('unit_code', 'Unit Code') }}
-         			{{ Form::text('unit_code', $newID, ['placeholder' => 'Type Unit Code']) }}
+	    			{{ Form::label('item_rate_code', 'Code') }}
+         			{{ Form::text('item_rate_code', $newID, ['placeholder' => 'Type Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('unit_name', 'Unit Name') }}
-         			{{ Form::text('unit_name', '', ['placeholder' => 'Type Unit Name']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('unit_description', 'Unit Description') }}
-          			{{ Form::textarea('unit_description', '', ['placeholder' => 'Type Unit Description', 'rows' => '2']) }}
+	    			{{ Form::label('item_rate_amount', 'Amount') }}
+         			{{ Form::text('item_rate_amount', '', ['placeholder' => 'Type Amount']) }}
 	    		</div>
 	    	</div>
         </div>
@@ -153,17 +144,17 @@
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
-	</div>	
+	</div>
 @endsection
 
 @section('js')
 <script>
   $(document).ready( function(){
-    $('#unit').addClass("active grey");
-    $('#inventory_content').addClass("active");
-    $('#inventory').addClass("active");
+    $('#$itemRate').addClass("active grey");
+    $('#content').addClass("active");
+    $('#title').addClass("active");
 
-    var table = $('#tblUnit').DataTable();
+    var table = $('#tblitemrate').DataTable();
   });
 </script>
 @endsection

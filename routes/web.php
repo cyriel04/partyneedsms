@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('penaltyType', 'PenaltyTypeController');
     Route::resource('penalty', 'PenaltyController');
     Route::resource('waiterRatio', 'WaiterRatioController');
+    Route::resource('uom', 'UOMController');
 
 
     Route::post('/equipmentType/equipmentType_update', 'EquipmentTypeController@equipmentType_update');
@@ -81,4 +82,3 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/waiterRatio/waiterRatio_update', 'WaiterRatioController@waiterRatio_update');
     Route::post('/waiterRatio/waiterRatio_restore', 'WaiterRatioController@waiterRatio_restore');
 });
-

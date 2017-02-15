@@ -24,7 +24,7 @@
 		<table class="ui table" id="tbldinnerwaretype">
 		  <thead>
 		    <tr>
-			    <th>Dinnerware Type</th>
+			    <th>Type</th>
 			    <th>Description</th>
 			    <th class="center aligned">Action</th>
 		  	</tr>
@@ -57,7 +57,7 @@
 @if(count($dinnerwareTypes) > 0)
 @foreach($dinnerwareTypes as $dinnerwareType)
 	<div class="ui modal" id="update{{$dinnerwareType->dinnerwareTypeCode}}">
-	  <div class="header">Update Dinnerware Type</div>
+	  <div class="header">Update</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/dinnerwareType/dinnerwareType_update']) !!}
 	    	<div class="ui form">
@@ -90,7 +90,7 @@
 	</div>
 
 	<div class="ui modal" id="delete{{$equipmentType->equipmentTypeCode}}">
-	  <div class="header">Deactivate Dinnerware Type</div>
+	  <div class="header">Deactivate</div>
 	  <div class="content">
 	    <p>Do you want to delete this Dinnerware type?</p>
 	  </div>
@@ -103,7 +103,7 @@
 	</div>
 
 	<div class="ui modal" id="restore{{$dinnerwareType->dinnerwareTypeCode}}">
-	  <div class="header">Restore Dinnerware Type</div>
+	  <div class="header">Restore</div>
 	  <div class="content">
 	    <p>Do you want to Restore this Dinnerware type?</p>
 	  </div>
@@ -119,7 +119,7 @@
 @endif
 
 	<div class="ui modal" id="create">
-	  <div class="header">New Dinnerware Type</div>
+	  <div class="header">New</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/dinnerwareType']) !!}
 	    	<div class="ui form">

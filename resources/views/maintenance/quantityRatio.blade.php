@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-	Waiter Ratio
+	Quantity Ratio
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
   	@endif
 
 	<div class="row">
-		<h1>Waiter Ratio</h1>
+		<h1>Quantity Ratio</h1>
 		<hr>
 	</div>
 
@@ -21,7 +21,7 @@
 		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Waiter Ratio</button>
 	</div>
 	<div class="row">
-		<table class="ui table" id="tblwaiterratio">
+		<table class="ui table" id="tblquantityratio">
 		  <thead>
 		    <tr>
 					<th>Mininum No. of Pax</th>
@@ -31,22 +31,22 @@
 		  	</tr>
 		  </thead>
 		  <tbody>
-		  	@if(count($waiterRatios) < 0)
+		  	@if(count($quantityRatios) < 0)
 		  	<tr>
 		  		<td colspan="3"><strong>Nothing to show.</strong></td>
 		  	</tr>
 		  	@else
-		  		@foreach($waiterRatios as $waiterRatio)
+		  		@foreach($quantityRatios as $quantityRatio)
 			  	<tr>
-						<td>{{$waiterRatio->intWaitRatiMinPax}}</td>
-			      <td>{{$waiterRatio->intWaitRatiMaxPax}}</td>
-			      <td>{{$waiterRatio->intWaitRatiNoOfWaiter}}</td>
+						<td>{{$quantityRatio->quantityRatioMinPax}}</td>
+			      <td>{{$quantityRatio->quantityRatioMaxPax}}</td>
+			      <td>{{$quantityRatio->quantityRatioKilo}}</td>
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$waiterRatio->strWaitRatiCode}}').modal('show');"><i class="edit icon"></i> Update</button>
-					@if($waiterRatio->deleted_at == null)
-			      	<button class="ui red button" onclick="$('#delete{{$waiterRatio->strWaitRatiCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
+					<button class="ui blue button" onclick="$('#update{{$quantityRatio->strWaitRatiCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+					@if($quantityRatio->deleted_at == null)
+			      	<button class="ui red button" onclick="$('#delete{{$quantityRatio->strWaitRatiCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui orange button" onclick="$('#restore{{$waiterRatio->strWaitRatiCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$quantityRatio->strWaitRatiCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
@@ -56,9 +56,9 @@
 		</table>
 	</div>
 
-@if(count($waiterRatios) > 0)
-@foreach($waiterRatios as $waiterRatio)
-	<div class="ui modal" id="update{{$waiterRatio->strWaitRatiCode}}">
+@if(count($quantityRatios) > 0)
+@foreach($quantityRatios as $quantityRatio)
+	<div class="ui modal" id="update{{$quantityRatio->strWaitRatiCode}}">
 	  <div class="header">Update</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/waiterRatio/waiterRatio_update']) !!}
@@ -73,18 +73,18 @@
 				    </ul>
 				</div>
 				@endif
-	    		{{ Form::hidden('waiter_ratio_code', $waiterRatio->strWaitRatiCode) }}
+	    		{{ Form::hidden('waiter_ratio_code', $quantityRatio->strWaitRatiCode) }}
 					<div class="required field">
 	    			{{ Form::label('min_pax', 'Minimum No. of Pax') }}
-         			{{ Form::text('min_pax', $waiterRatio->intWaitRatiMinPax, ['placeholder' => 'Maxinum Pax']) }}
+         			{{ Form::text('min_pax', $quantityRatio->intWaitRatiMinPax, ['placeholder' => 'Maxinum Pax']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('max_pax', 'Maxinum No. of Pax') }}
-         			{{ Form::text('max_pax', $waiterRatio->intWaitRatiMaxPax, ['placeholder' => 'Maxinum Pax']) }}
+         			{{ Form::text('max_pax', $quantityRatio->intWaitRatiMaxPax, ['placeholder' => 'Maxinum Pax']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('number_of_waiter', 'Number of Waiter') }}
-          			{{ Form::text('number_of_waiter', $waiterRatio->intWaitRatiNoOfWaiter, ['placeholder' => 'Number of Waiter']) }}
+          			{{ Form::text('number_of_waiter', $quantityRatio->intWaitRatiNoOfWaiter, ['placeholder' => 'Number of Waiter']) }}
 	    		</div>
 	    	</div>
         </div>
@@ -95,27 +95,27 @@
 	  </div>
 	</div>
 
-	<div class="ui modal" id="delete{{$waiterRatio->strWaitRatiCode}}">
+	<div class="ui modal" id="delete{{$quantityRatio->strWaitRatiCode}}">
 	  <div class="header">Deactivate</div>
 	  <div class="content">
 	    <p>Do you want to delete this waiter ratio?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/waiterRatio/' .$waiterRatio->strWaitRatiCode, 'method' => 'delete']) !!}
+	  	{!! Form::open(['url' => '/waiterRatio/' .$quantityRatio->strWaitRatiCode, 'method' => 'delete']) !!}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
 	</div>
 
-	<div class="ui modal" id="restore{{$waiterRatio->strWaitRatiCode}}">
+	<div class="ui modal" id="restore{{$quantityRatio->strWaitRatiCode}}">
 	  <div class="header">Restore</div>
 	  <div class="content">
 	    <p>Do you want to Restore this waiter ratio?</p>
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/waiterRatio/waiterRatio_restore']) !!}
-	  		{{ Form::hidden('waiter_ratio_code', $waiterRatio->strWaitRatiCode) }}
+	  		{{ Form::hidden('waiter_ratio_code', $quantityRatio->strWaitRatiCode) }}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
