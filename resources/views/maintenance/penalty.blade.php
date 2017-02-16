@@ -21,13 +21,11 @@
 		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Penalty</button>
 	</div>
 	<div class="row">
-		<table class="ui brown table" id="tblPenalty">
+		<table class="ui brown table" id="tblpenalty">
 		  <thead>
 		    <tr>
-			    <th>Penalty</th>
 			    <th>Description</th>
 			    <th>Penalty Type</th>
-			    <th>Penalty Fee</th>
 			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
@@ -39,28 +37,26 @@
 		  	@else
 		  		@foreach($penalties as $penalty)
 			  	<tr>
-			      <td>{{$penalty->strPenaName}}</td>
-			      <td>{{$penalty->txtPenaDesc}}</td>
-			      <td>{{$penalty->penaltyType->strPenaTypeName}}</td>
-			      <td>Php {{$penalty->dblPenaFee}}</td>
+			      <td>{{$penalty->penaltyDesc}}</td>
+			    <!-- <td>{{$penalty->penaltyType->strPenaTypeName}}</td> -->
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$penalty->strPenaCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+					<button class="ui blue button" onclick="$('#update{{$penalty->penaltyCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($penalty->deleted_at == null)
-			      	<button class="ui red button" onclick="$('#delete{{$penalty->strPenaCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
+			      	<button class="ui red button" onclick="$('#delete{{$penalty->penaltyCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui orange button" onclick="$('#restore{{$penalty->strPenaCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$penalty->penaltyCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
 		    	@endforeach
-		    @endif	
+		    @endif
 		  </tbody>
 		</table>
 	</div>
 
 @if(count($penalties) > 0)
 @foreach($penalties as $penalty)
-	<div class="ui modal" id="update{{$penalty->strPenaCode}}">
+	<div class="ui modal" id="update{{$penalty->penaltyCode}}">
 	  <div class="header">Update Penalty</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/penalty/penalty_update']) !!}
@@ -75,10 +71,10 @@
 				    </ul>
 				</div>
 				@endif
-	    		{{ Form::hidden('penalty_code', $penalty->strPenaCode) }}
+	    		{{ Form::hidden('penalty_code', $penalty->penaltyCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('penalty_name', 'Penalty Name') }}
-         			{{ Form::text('penalty_name', $penalty->strPenaName, ['placeholder' => 'Type Penalty Name']) }}
+	    			{{ Form::label('penalty_location', 'Penalty Location') }}
+         			{{ Form::text('penalty_location', $penalty->deliveryLocation, ['placeholder' => 'Type Penalty Location']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('penalty_description', 'Penalty Description') }}
@@ -88,13 +84,6 @@
 	    			{{ Form::label('penalty_type', 'Penalty Type') }}
          			{{ Form::select('penalty_type', $penaTypes, $penalty->strPenaPenaTypeCode, ['placeholder' => 'Choose Penalty Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
-	    		<div class="required field">
-                    {{ Form::label('penalty_fee', 'Penalty Fee') }}
-                    <div class="ui right labeled input">
-                    <div class="ui label">P</div>
-                    {{ Form::text('penalty_fee', $penalty->dblPenaFee, ['placeholder' => 'Fee']) }}
-                    </div>
-                </div>
 	    	</div>
         </div>
 	  <div class="actions">
@@ -110,7 +99,7 @@
 	    <p>Do you want to delete this penalty?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/penalty/' . $penalty->strPenaCode, 'method' => 'delete']) !!}
+	  	{!! Form::open(['url' => '/penalty/' . $penalty->penaltyCode, 'method' => 'delete']) !!}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
@@ -154,8 +143,8 @@
          			{{ Form::text('penalty_code', $newID, ['placeholder' => 'Type Penalty Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('penalty_name', 'Penalty Name') }}
-         			{{ Form::text('penalty_name', '', ['placeholder' => 'Type Penalty Name']) }}
+	    			{{ Form::label('penalty_location', 'Penalty Location') }}
+         			{{ Form::text('penalty_location', '', ['placeholder' => 'Type Penalty Location']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('penalty_description', 'Penalty Description') }}
@@ -165,13 +154,6 @@
 	    			{{ Form::label('penalty_type', 'Penalty Type') }}
          			{{ Form::select('penalty_type', $penaTypes, null, ['placeholder' => 'Choose Penalty Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
-	    		<div class="required field">
-                    {{ Form::label('penalty_fee', 'Penalty Fee') }}
-                    <div class="ui right labeled input">
-                    <div class="ui label">Php</div>
-                    {{ Form::text('penalty_fee', null, ['placeholder' => 'Fee']) }}
-                    </div>
-                </div>
 	    	</div>
         </div>
 	  <div class="actions">
@@ -179,17 +161,17 @@
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
-	</div>	
+	</div>
 @endsection
 
 @section('js')
 <script>
   $(document).ready( function(){
     $('#penalty').addClass("active grey");
-    $('#fees_content').addClass("active");
-    $('#fees').addClass("active");
+    $('#content').addClass("active");
+    $('#title').addClass("active");
 
-    var table = $('#tblPenalty').DataTable();
+    var table = $('#tblpenalty').DataTable();
   });
 </script>
 @endsection

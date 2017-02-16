@@ -42,11 +42,11 @@
 			      <td>{{$quantityRatio->quantityRatioMaxPax}}</td>
 			      <td>{{$quantityRatio->quantityRatioKilo}}</td>
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$quantityRatio->strWaitRatiCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+					<button class="ui blue button" onclick="$('#update{{$quantityRatio->quantityRatioCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($quantityRatio->deleted_at == null)
-			      	<button class="ui red button" onclick="$('#delete{{$quantityRatio->strWaitRatiCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
+			      	<button class="ui red button" onclick="$('#delete{{$quantityRatio->quantityRatioCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui orange button" onclick="$('#restore{{$quantityRatio->strWaitRatiCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$quantityRatio->quantityRatioCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
@@ -58,10 +58,10 @@
 
 @if(count($quantityRatios) > 0)
 @foreach($quantityRatios as $quantityRatio)
-	<div class="ui modal" id="update{{$quantityRatio->strWaitRatiCode}}">
+	<div class="ui modal" id="update{{$quantityRatio->quantityRatioCode}}">
 	  <div class="header">Update</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/waiterRatio/waiterRatio_update']) !!}
+	    {!! Form::open(['url' => '/quantityRatio/quantityRatio_update']) !!}
 	    	<div class="ui form">
 	    		@if (count($errors) > 0)
 	    		<div class="ui message">
@@ -73,18 +73,18 @@
 				    </ul>
 				</div>
 				@endif
-	    		{{ Form::hidden('waiter_ratio_code', $quantityRatio->strWaitRatiCode) }}
+	    		{{ Form::hidden('quantity_ratio_code', $quantityRatio->quantityRatioCode) }}
 					<div class="required field">
 	    			{{ Form::label('min_pax', 'Minimum No. of Pax') }}
-         			{{ Form::text('min_pax', $quantityRatio->intWaitRatiMinPax, ['placeholder' => 'Maxinum Pax']) }}
+         			{{ Form::text('min_pax', $quantityRatio->quantityRatioMinPax, ['placeholder' => 'Minimum Pax']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('max_pax', 'Maxinum No. of Pax') }}
-         			{{ Form::text('max_pax', $quantityRatio->intWaitRatiMaxPax, ['placeholder' => 'Maxinum Pax']) }}
+         			{{ Form::text('max_pax', $quantityRatio->quantityRatioMaxPax, ['placeholder' => 'Maximum Pax']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('number_of_waiter', 'Number of Waiter') }}
-          			{{ Form::text('number_of_waiter', $quantityRatio->intWaitRatiNoOfWaiter, ['placeholder' => 'Number of Waiter']) }}
+          			{{ Form::text('number_of_waiter', $quantityRatio->quantityRatioKilo, ['placeholder' => 'Number of Waiter']) }}
 	    		</div>
 	    	</div>
         </div>
@@ -95,27 +95,27 @@
 	  </div>
 	</div>
 
-	<div class="ui modal" id="delete{{$quantityRatio->strWaitRatiCode}}">
+	<div class="ui modal" id="delete{{$quantityRatio->quantityRatioCode}}">
 	  <div class="header">Deactivate</div>
 	  <div class="content">
-	    <p>Do you want to delete this waiter ratio?</p>
+	    <p>Do you want to delete this quantity ratio?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/waiterRatio/' .$quantityRatio->strWaitRatiCode, 'method' => 'delete']) !!}
+	  	{!! Form::open(['url' => '/quantityRatio/' .$quantityRatio->quantityRatioCode, 'method' => 'delete']) !!}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
 	</div>
 
-	<div class="ui modal" id="restore{{$quantityRatio->strWaitRatiCode}}">
+	<div class="ui modal" id="restore{{$quantityRatio->quantityRatioCode}}">
 	  <div class="header">Restore</div>
 	  <div class="content">
-	    <p>Do you want to Restore this waiter ratio?</p>
+	    <p>Do you want to Restore this quantity ratio?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/waiterRatio/waiterRatio_restore']) !!}
-	  		{{ Form::hidden('waiter_ratio_code', $quantityRatio->strWaitRatiCode) }}
+	  	{!! Form::open(['url' => '/quantityRatio/quantityRatio_restore']) !!}
+	  		{{ Form::hidden('quantity_ratio_code', $quantityRatio->quantityRatioCode) }}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
@@ -127,7 +127,7 @@
 	<div class="ui modal" id="create">
 	  <div class="header">New</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/waiterRatio']) !!}
+	    {!! Form::open(['url' => '/quantityRatio']) !!}
 	    	<div class="ui form">
 	    		@if (count($errors) > 0)
 	    		<div class="ui message">
@@ -141,8 +141,8 @@
 				@endif
 
 	    		<div class="disabled field">
-	    			{{ Form::label('waiter_ratio_code', 'Waiter Ratio Code') }}
-         			{{ Form::text('waiter_ratio_code', $newID, ['placeholder' => 'Type Menu Type Code']) }}
+	    			{{ Form::label('quantity_ratio_code', 'Quantity Ratio Code') }}
+         			{{ Form::text('quantity_ratio_code', $newID, ['placeholder' => 'Type Quantity Ratio Code']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('min_pax', 'Minimum No. of Pax') }}
@@ -153,8 +153,8 @@
          			{{ Form::text('max_pax', '', ['placeholder' => 'Number of Pax']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('number_of_waiter', 'Number of Waiter') }}
-          			{{ Form::text('number_of_waiter', '', ['placeholder' => 'Number of Waiter']) }}
+	    			{{ Form::label('number_of_kilo', 'Number of Kilo') }}
+          			{{ Form::text('number_of_kilo', '', ['placeholder' => 'Number of Kilo']) }}
 	    		</div>
 	    	</div>
         </div>
